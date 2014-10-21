@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="#ffffff"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/top"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="#f0f0f0" >
+
+        <Button
+            android:id="@+id/couponBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/big_bar_selector"
+            android:textColor="@drawable/text_selector"
+            android:text="优惠券" />
+
+        <Button
+            android:id="@+id/favouriteBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/big_bar_mid_selector"
+            android:textColor="@drawable/text_selector"
+            android:text="收藏夹" />
+
+        <Button
+            android:id="@+id/settingBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/big_bar_selector"
+            android:textColor="@drawable/text_selector"
+            android:text="系统设置" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/coupon_qty"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal" />
+
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
+        android:scrollbarAlwaysDrawVerticalTrack="false"
+        android:cacheColorHint="#00000000"
+        android:id="@+id/centerlist"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/coupon_qty"
+        android:layout_marginTop="10dp"
+        android:divider="#d0d0d0"
+        android:dividerHeight="1px"
+        android:fadingEdge="none"
+        android:fastScrollEnabled="false"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false"
+        android:smoothScrollbar="true" />
+
+    <ScrollView
+        android:layout_below="@+id/centerlist"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <RelativeLayout
+            android:id="@+id/setting_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" >
+
+            <LinearLayout
+                android:id="@+id/first_div"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_margin="5dp"
+                android:background="#f0f0f0"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/close"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/top_selector"
+                    android:gravity="left|center_vertical"
+                    android:textColor="@color/gray"
+                    android:text="关闭推送" />
+
+                <Button
+                    android:id="@+id/all"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/mid_selector"
+                    android:gravity="left|center_vertical"
+                    android:textColor="@color/gray"
+                    android:text="全部接收" />
+
+                <Button
+                    android:id="@+id/only"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/mid_selector"
+                    android:gravity="left|center_vertical"
+                    android:textColor="@color/gray"
+                    android:text="仅接收置顶推送" />
+
+                <Button
+                    android:id="@+id/some"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/buttom_selector"
+                    android:gravity="left|center_vertical"
+                    android:textColor="@color/gray"
+                    android:text="部分推送" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/second_div"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/first_div"
+                android:layout_margin="5dp"
+                android:background="#f0f0f0"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/voice"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/top_selector"
+                    android:gravity="left|center_vertical"
+                    android:textColor="@color/gray"
+                    android:text="声音" />
+
+                <Button
+                    android:id="@+id/shake"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/buttom_selector"
+                    android:gravity="left|center_vertical"
+                    android:textColor="@color/gray"
+                    android:text="震动" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/third_div"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/second_div"
+                android:layout_margin="5dp"
+                android:orientation="vertical" >
+
+                <Button
+                    android:id="@+id/silence"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/top_selector"
+                    android:gravity="left|center_vertical"
+                    android:textColor="@color/gray"
+                    android:text="安静时段" />
+
+                <LinearLayout
+                    android:id="@+id/time_duan"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/setting_button_bottom" >
+
+                    <Button
+                        android:id="@+id/start_time"
+                        android:layout_width="fill_parent"
+                        android:gravity="left|center_vertical"
+                        android:background="@null"
+                        android:paddingLeft="5dp"
+                        android:textColor="@drawable/text_selector"
+                        android:layout_height="wrap_content" />
+
+                   <!-- <Button
+                        android:id="@+id/end_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="选择结束时间" /> --> 
+                    
+                    <!-- <TextView
+	                    android:id="@+id/time"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_weight="1" /> -->
+                    
+                </LinearLayout>
+
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+</RelativeLayout>

@@ -1,0 +1,73 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:id="@+id/side_menu_layout"
+    android:gravity="center_vertical|center_horizontal"
+    android:background="#eeeeee" >
+    <FrameLayout
+        android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"  
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="20dp" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/default_user_avatar" />
+
+            <TextView
+                android:id="@+id/member_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:gravity="center_vertical|center_horizontal"
+                android:text="@string/click_login"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/click_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#00000000"/> 
+	</FrameLayout>
+    
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/list_padding"
+	    android:layout_marginRight="@dimen/list_padding"
+        android:background="@drawable/divider" />
+    
+	<ListView 
+	    android:id="@+id/sidemenulist"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:divider="@drawable/divider"
+	    android:dividerHeight="1dp"
+	    android:choiceMode="singleChoice"
+	    android:paddingLeft="@dimen/list_padding"
+	    android:paddingRight="@dimen/list_padding" 
+	    tools:context="com.yidianhulian.epiboly.zzz.NavigationDrawerFragment"/>
+	
+	<TextView
+	    android:layout_width="wrap_content"
+	    android:layout_height="0dp"
+	    android:layout_weight="1"
+	    android:text="易点互联"
+	    android:textColor="@color/gray"
+	    android:gravity="center_horizontal|bottom"
+	    android:layout_marginBottom="10dp" />
+	
+</LinearLayout>
+

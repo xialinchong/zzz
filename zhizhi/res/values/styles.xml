@@ -1,0 +1,45 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="android:Theme.Holo.Light">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+        
+    </style>
+
+    <style name="MyActionbar" parent="android:Widget.Holo.ActionBar">
+        <item name="android:background">#d14836</item>
+        <item name="android:titleTextStyle">@style/ActionBarTitle</item>
+    </style>
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:actionBarStyle">@style/MyActionbar</item>
+        <item name="android:actionDropDownStyle">@style/MyDropDownNav</item>          
+        <item name="android:spinnerItemStyle">@style/MySpinnerItemStyle</item>        
+    </style>
+    
+    <style name="ActionBarTitle" parent="@android:style/TextAppearance.Holo.Large">
+	    <item name="android:textColor">@color/white</item>
+	</style>
+	
+    <style name="MyDropDownNav" parent="android:style/Widget.Holo.Light.Spinner">  
+        <item name="android:popupBackground">@drawable/popup_menu_bg</item>         
+        <item name="android:background">@drawable/btn_dropdown</item>
+        <item name="android:dropDownVerticalOffset">1dip</item> 
+        <item name="android:dropDownWidth">320dp</item>
+        <item name="android:gravity">right|center_vertical</item>       
+    </style>  
+    
+    <style name="MySpinnerItemStyle" parent="android:style/TextAppearance.Widget.TextView.SpinnerItem">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+    
+</resources>

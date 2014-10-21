@@ -1,0 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" 
+    android:id="@+id/side_menu_layout"
+    android:gravity="center_vertical|center_horizontal"
+    android:background="#eeeeee" >
+    <LinearLayout 
+        android:id="@+id/click_layout"
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content" 
+		android:orientation="vertical" 
+		android:gravity="center" 
+		> 
+		<ImageView 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"
+			android:layout_marginTop="20dp"
+			android:src="@drawable/default_user_avatar" 
+			android:layout_gravity="center"/>
+		
+		<TextView android:id="@+id/member_name"
+		    android:layout_marginTop="20dp"
+	        android:layout_width="fill_parent" 
+	        android:layout_height="wrap_content"
+	        android:textSize="18sp"
+	        android:text="@string/click_login"   
+	        android:gravity="center_vertical|center_horizontal" />
+	</LinearLayout> 
+    
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="@dimen/list_padding"
+	    android:layout_marginRight="@dimen/list_padding"
+        android:background="@drawable/divider" />
+    
+	<ListView 
+	    android:id="@android:id/list"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:divider="@drawable/divider"
+	    android:dividerHeight="1dp"
+	    android:paddingLeft="@dimen/list_padding"
+	    android:paddingRight="@dimen/list_padding" />
+</LinearLayout>

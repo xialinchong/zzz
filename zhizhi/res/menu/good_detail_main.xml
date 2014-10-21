@@ -1,0 +1,47 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.yidianhulian.epiboly.zzz.MainActivity" >
+
+    <item
+        android:id="@+id/menu_share"
+        android:icon="@drawable/share"
+        android:showAsAction="always"
+        android:title=""
+        android:titleCondensed="" />
+   
+    <item
+        android:id="@+id/menu_collect"
+        android:icon="@drawable/favorite"
+        android:showAsAction="collapseActionView"
+        android:title="收藏"
+        android:titleCondensed=""/>
+    
+    <item
+        android:id="@+id/menu_comment"
+        android:icon="@drawable/comment"
+        android:showAsAction="collapseActionView"
+        android:title="评论"
+        android:titleCondensed=""/>
+    
+    <item
+        android:id="@+id/menu_like"
+        android:icon="@drawable/like"
+        android:showAsAction="collapseActionView"
+        android:title="值"
+        android:titleCondensed=""/>
+    
+    <item
+        android:id="@+id/menu_unlike"
+        android:icon="@drawable/like"
+        android:showAsAction="collapseActionView"
+        android:title="不值"
+        android:titleCondensed=""/>
+    
+    <item
+        android:id="@+id/menu_coupon"
+        android:icon="@drawable/like"
+        android:showAsAction="collapseActionView"
+        android:title="优惠直达"
+        android:titleCondensed=""/>
+    
+</menu>

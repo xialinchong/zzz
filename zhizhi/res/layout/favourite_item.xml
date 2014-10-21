@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants" >
+
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:background="#ffffff"
+	    android:orientation="horizontal"
+	    android:layout_margin="10dp" >
+	    
+		<LinearLayout
+	        android:layout_width="80dp"
+	        android:layout_height="fill_parent"
+	        android:layout_marginRight="10dp"
+	        android:orientation="vertical" >
+	
+	        <ImageView
+	            android:id="@+id/good_img"
+	            android:layout_width="80dp"
+	            android:layout_height="80dp"
+	            android:src="@drawable/placeholder" />
+	
+	    </LinearLayout>
+	
+	    <LinearLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:layout_weight="1"
+	        android:orientation="vertical" >
+	
+	        <LinearLayout
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content" >
+	            <TextView
+	                android:id="@+id/good_desc"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:textSize="14sp" />
+	        </LinearLayout>
+			<RelativeLayout 
+			    android:layout_marginTop="5dp"
+        		android:layout_width="match_parent"
+        		android:layout_height="wrap_content"
+        		android:layout_gravity="bottom" >
+	            <Button
+	                android:id="@+id/delete"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentLeft="true"
+            		android:layout_alignParentBottom="true"
+            		android:focusable="false"
+	                android:clickable="true"
+	                android:drawableLeft="@drawable/trash"
+            		android:paddingLeft="5dp"
+            		android:textSize="14sp"
+	                android:text="移除"
+	                android:background="@null"
+	                android:textColor="@drawable/text_selector" />
+	            
+	            <Button
+	                android:id="@+id/reach"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_alignParentRight="true"
+            		android:layout_alignTop="@+id/delete"
+	                android:layout_alignBottom="@+id/delete"
+	                android:drawableLeft="@drawable/openlink"
+            		android:paddingLeft="5dp"
+            		android:textSize="14sp"
+	                android:text="  优惠直达链接"
+	                android:textColor="@drawable/redtext_selector"
+	                android:background="@null"
+	                />
+	        </RelativeLayout>	       
+	    </LinearLayout>
+	</LinearLayout>
+</LinearLayout>

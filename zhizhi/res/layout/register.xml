@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#ffffff">
+    
+    <TextView
+            android:id="@+id/logo"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="会员注册"
+            android:textSize="20sp" />
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp" >
+        
+        <EditText
+            android:id="@+id/username"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:hint="用户名"
+            android:background="@android:drawable/edit_text" />
+        
+        <EditText
+            android:layout_below="@+id/username"
+            android:id="@+id/email"
+            android:layout_alignLeft="@+id/username"
+            android:layout_alignRight="@+id/username"
+            android:layout_marginTop="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:inputType="textEmailAddress"
+            android:hint="邮箱"
+            android:background="@android:drawable/edit_text" />
+        
+        <EditText
+            android:layout_below="@+id/email"
+            android:id="@+id/psw"
+            android:layout_alignLeft="@+id/username"
+            android:layout_alignRight="@+id/username"
+            android:layout_marginTop="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:inputType="textPassword"
+            android:hint="密码"
+            android:background="@android:drawable/edit_text" />
+        
+        <EditText
+            android:layout_below="@+id/psw"
+            android:id="@+id/display_name"
+            android:layout_alignLeft="@+id/username"
+            android:layout_alignRight="@+id/username"
+            android:layout_marginTop="5dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:hint="昵称"
+            android:background="@android:drawable/edit_text" />
+        
+        <ImageButton
+            android:layout_below="@+id/display_name"
+            android:id="@+id/regist"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/register_selector" />
+        
+        <Button
+            android:layout_below="@+id/regist"
+            android:id="@+id/go_login"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:textSize="15sp"
+            android:text="已有账号？登陆"
+            android:textColor="#b0b0b0" />
+        
+        <View
+            android:layout_below="@+id/go_login"
+            android:id="@+id/divider"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_width="fill_parent"
+            android:layout_height="10dp"
+            android:background="@drawable/row_div" />
+        
+        <TextView
+            android:layout_below="@+id/divider"
+            android:id="@+id/sectext"
+            android:layout_alignLeft="@+id/username"
+            android:layout_alignRight="@+id/username"
+            android:layout_marginTop="20dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="第三方账号登陆"
+            android:gravity="center"
+            android:textSize="20sp" />
+        
+        <LinearLayout
+            android:id="@+id/third"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_alignLeft="@+id/username"
+            android:layout_alignRight="@+id/username"
+            android:layout_below="@+id/sectext"
+            android:orientation="horizontal"
+            android:gravity="center" >
+            
+            
+            <ImageButton
+                android:id="@+id/sina"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:src="@drawable/sina_selector" />
+            
+            <ImageButton
+                android:id="@+id/qq"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:background="#00000000"
+                android:src="@drawable/qq_selector" />
+            
+        </LinearLayout>
+        
+    </RelativeLayout>
+
+</LinearLayout>
+</ScrollView>

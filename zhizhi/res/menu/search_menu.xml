@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.yidianhulian.epiboly.zzz.MainActivity" >
+
+    <item   
+        android:id="@+id/menu_search"   
+        android:icon="@drawable/search"  
+        android:title="@string/search"  
+        android:actionViewClass="android.widget.SearchView"  
+        android:showAsAction="ifRoom|collapseActionView" />
+	    
+</menu>

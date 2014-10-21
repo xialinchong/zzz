@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+  	android:layout_width="match_parent"
+  	android:layout_height="match_parent"
+  	android:orientation="vertical" >
+    
+   <ListView 
+	    android:id="@+id/search_history_list"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:divider="@drawable/divider"
+	    android:dividerHeight="2dp"
+	    android:choiceMode="singleChoice"
+	    android:layout_alignParentTop="true"
+	    android:layout_above="@+id/btn_clear_history"
+	    android:paddingLeft="@dimen/list_padding"
+	    android:paddingRight="@dimen/list_padding" />
+    
+   <Button 
+       android:id="@+id/btn_clear_history" 
+       android:layout_width="wrap_content"
+	   android:layout_height="wrap_content"
+	   android:layout_margin="10dp"  
+	   android:layout_alignParentBottom="true"
+	   android:text="@string/clear_search_histories"  
+   />
+   
+</RelativeLayout>
+	
+	

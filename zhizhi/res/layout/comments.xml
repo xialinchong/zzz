@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+  	android:layout_width="match_parent"
+  	android:layout_height="match_parent"
+  	android:orientation="vertical" >
+	
+	 	<TextView       
+	 	    android:id="@+id/comment_total"
+	    	android:layout_width="fill_parent"
+	    	android:layout_height="wrap_content"
+	    	android:paddingLeft="10dp"
+	    	android:layout_alignParentTop="true"
+	    	android:gravity="center_vertical"	    	
+	    	android:text="" 
+	    	android:textColor="@color/red"
+	    	android:background="@drawable/comment_header"
+	    	/>
+		
+	 	<com.handmark.pulltorefresh.library.PullToRefreshListView
+	 	    android:id="@+id/comment_list"
+	 	    android:layout_width="match_parent"
+	 	    android:layout_height="wrap_content"
+	 	    android:layout_below="@+id/comment_total"
+	 	    android:layout_above="@+id/comment_bottom"
+	 	    android:scrollbarAlwaysDrawVerticalTrack="false"
+	 	    android:visibility="visible"
+	 	    tools:listitem="@layout/comment_list_row" 
+	 	    xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        	ptr:ptrMode="pullFromStart"/>
+	
+	<LinearLayout
+	    android:id="@+id/comment_bottom"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:background="@drawable/comment_bg"
+	    android:orientation="horizontal"
+	    android:layout_marginLeft="5dp"
+	    android:layout_marginRight="5dp"
+	    android:layout_marginBottom="5dp" >
+  
+		<EditText
+         	android:id="@+id/input_content"
+         	android:layout_width="0dp"
+         	android:layout_height="50dp"
+         	android:ems="10"
+         	android:layout_weight="1"
+         	android:hint="添加评论"
+         	android:background="@null"
+         	android:paddingLeft="10dp"
+         	android:textColorHint="#cccccc" >
+	
+	         <requestFocus />
+	    </EditText>		  
+		<Button android:id="@+id/btn_send"    
+	    	android:layout_width="wrap_content" 
+	    	android:layout_margin="10dp"  
+	    	android:layout_height="fill_parent"
+	    	android:background="@drawable/send_btn_selector"/> 
+
+	</LinearLayout>
+</RelativeLayout>
