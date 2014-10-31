@@ -5,6 +5,7 @@
     android:orientation="vertical" 
     android:background="#ffffff">
 	<ScrollView	    
+	    android:layout_above="@+id/bottom"
 		android:layout_width="fill_parent"  
 		android:layout_height="fill_parent"  
 		android:fadingEdge="vertical">
@@ -24,7 +25,8 @@
 		        android:layout_alignParentTop="true"
 		        android:layout_marginRight="20dp"
 		        android:layout_marginTop="10dp"
-		        android:text="" />
+		        android:textSize="18sp"
+		        android:textColor="@color/gray" />
 		
 		    <TextView
 		        android:id="@+id/shop_name"
@@ -34,7 +36,8 @@
 		        android:layout_alignTop="@+id/stock_date"
 		        android:layout_marginLeft="20dp"
 		        android:layout_toLeftOf="@+id/stock_date"
-		        android:text="" />
+		        android:textColor="@color/gray"
+		        android:textSize="18sp" />
 		
 		    <View
 		        android:id="@+id/divider"
@@ -54,6 +57,7 @@
 		        android:layout_alignRight="@+id/stock_date"
 		        android:layout_below="@+id/divider"
 		        android:layout_marginTop="10dp"
+		        android:textSize="18sp"
 		        android:text="" />
 		
 		    <TextView
@@ -63,7 +67,8 @@
 		        android:layout_alignRight="@+id/stock_date"
 		        android:layout_below="@+id/good_title"
 		        android:layout_marginTop="10dp"
-		        android:text="" />
+		        android:textColor="@color/gray"
+		        android:textSize="18sp" />
 		
 		    <TextView
 		        android:id="@+id/rate_score"
@@ -72,7 +77,8 @@
 		        android:layout_alignLeft="@+id/shop_name"
 		        android:layout_alignTop="@+id/good_comment"
 		        android:layout_toLeftOf="@+id/good_comment"
-		        android:text="" />
+		        android:textColor="@color/gray"
+		        android:textSize="18sp" />
 		
 		    <FrameLayout android:id="@+id/goods_imgs_layout"
 		        android:layout_width="fill_parent"
@@ -130,16 +136,19 @@
 		    	android:visibility="gone">	
 		    
 		        <LinearLayout 
+		            android:layout_marginTop="10dp"
 		            android:layout_width="match_parent"
 		    		android:layout_height="match_parent">
 		    		<TextView				        
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
+				        android:textSize="18sp"
 				        android:text="发劵商家：" />
 		    		<TextView
 				        android:id="@+id/coupon_mall_name"
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
+				        android:textSize="18sp"
 				        android:text="" />
 		        </LinearLayout>	
 		        <LinearLayout 
@@ -148,11 +157,13 @@
 		    		<TextView				        
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
-				        android:text="优惠额度：" />
+				        android:text="优惠额度："
+				        android:textSize="18sp" />
 		    		<TextView
 				        android:id="@+id/coupon_discount_desc"
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
+				        android:textSize="18sp"
 				        android:text="" />
 		        </LinearLayout>	
 		        <LinearLayout 
@@ -161,12 +172,14 @@
 		    		<TextView				        
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
-				        android:text="有效期至：" />
+				        android:text="有效期至："
+				        android:textSize="18sp" />
 		    		<TextView
 				        android:id="@+id/coupon_edate"
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
-				        android:text="" />
+				        android:text=""
+				        android:textSize="18sp" />
 		        </LinearLayout>	
 		        <LinearLayout 
 		            android:layout_width="match_parent"
@@ -174,12 +187,14 @@
 		    		<TextView				        
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
-				        android:text="劵数量：" />
+				        android:text="劵数量："
+				        android:textSize="18sp" />
 		    		<TextView
 				        android:id="@+id/coupon_remained"
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
-				        android:text="" />
+				        android:text=""
+				        android:textSize="18sp" />
 		        </LinearLayout>	
 		        <LinearLayout 
 		            android:layout_width="match_parent"
@@ -187,12 +202,14 @@
 		    		<TextView				        
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
-				        android:text="使用说明：" />
+				        android:text="使用说明："
+				        android:textSize="18sp" />
 		    		<TextView
 				        android:id="@+id/coupon_use_desc"
 				        android:layout_width="wrap_content"
 				        android:layout_height="wrap_content"
-				        android:text="" />
+				        android:text=""
+				        android:textSize="18sp" />
 		        </LinearLayout>	
 				<ImageButton
 			        android:id="@+id/btn_get_coupon"

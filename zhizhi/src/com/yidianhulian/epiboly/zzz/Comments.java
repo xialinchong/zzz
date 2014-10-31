@@ -25,8 +25,8 @@ import android.widget.Toast;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.yidianhulian.epiboly.Const;
 import com.yidianhulian.epiboly.Util;
 import com.yidianhulian.epiboly.ZZZApplication;
@@ -67,7 +67,8 @@ public class Comments extends Fragment implements CallApiListener {
         good_id = activity.getGoodId();
         
         Util.showLoading(activity, Util.DATA_LOADING);
-        CallApiTask.doCallApi(GET_COMMENTS, Comments.this);
+        CallApiTask.doCallApi(GET_COMMENTS, Comments.this, getActivity());
+//        CallApiTask.doCallApi(GET_COMMENTS, Comments.this);
 
         //创建SimpleAdapter适配器将数据绑定到item显示控件上  
         adapter = new SimpleAdapter(this.getActivity(), datas, R.layout.comment_list_row,   
@@ -97,7 +98,8 @@ public class Comments extends Fragment implements CallApiListener {
 				}
 				search_pagenos.put(slug, pageno);
 				search_params.put("pageno", pageno.toString());
-				CallApiTask.doCallApi(REFRESH_COMMENT, Comments.this);
+				CallApiTask.doCallApi(REFRESH_COMMENT, Comments.this, getActivity());
+//				CallApiTask.doCallApi(REFRESH_COMMENT, Comments.this);
 				
 			}
         	
@@ -121,7 +123,7 @@ public class Comments extends Fragment implements CallApiListener {
 				}
 				
 				Util.showLoading(getActivity(), Util.DATA_PROCESSING);
-				CallApiTask.doCallApi(SEND_COMMENT, Comments.this);
+				CallApiTask.doCallApi(SEND_COMMENT, Comments.this, getActivity());
 			}
 		});
         
@@ -152,96 +154,136 @@ public class Comments extends Fragment implements CallApiListener {
         super.onPause();
     }
 
-	@Override
-	public JSONObject callApi(int what, Object... params) {
-		HashMap<String,String> search_params = new HashMap<String,String>();
-		search_params.put("gid", good_id);
-		if (what == GET_COMMENTS) {
-			return Api.get(Const.GET_COMMENTS, search_params);
-		} else if (what == SEND_COMMENT) {
-			search_params.put("cookie", Util.getLoginUserItem(getActivity().getApplicationContext() , "cookie"));
-			search_params.put("content", ctrl_input_content.getText().toString());
-			
-			return Api.get(Const.SUBMIT_COMMENT, search_params);
-		} else if(what == REFRESH_COMMENT){
-			this.search_params.put("gid", good_id);
-			return Api.get(Const.GET_COMMENTS, this.search_params);
-		}
-		return null;
-	}
+    @Override
+    public Api getApi(int what, Object... params) {
+        HashMap<String,String> search_params = new HashMap<String,String>();
+        search_params.put("gid", good_id);
+        if (what == GET_COMMENTS) {
+            return new Api("get", Const.GET_COMMENTS, search_params);
+        } else if (what == SEND_COMMENT) {
+            search_params.put("cookie", Util.getLoginUserItem(getActivity().getApplicationContext() , "cookie"));
+            search_params.put("content", ctrl_input_content.getText().toString());
+            
+            return new Api("get", Const.SUBMIT_COMMENT, search_params);
+        } else if(what == REFRESH_COMMENT){
+            this.search_params.put("gid", good_id);
+            return new Api("get", Const.GET_COMMENTS, this.search_params);
+        }
+        return null;
+    }
 
-	@Override
-	public void handleResult(int what, JSONObject result, Object... params) {
-		Util.hideLoading();
-		if (what == GET_COMMENTS) {
-			if (result == null || ! "ok".equals(Api.getJSONValue(result, "status"))) 
-				return;	
-			try {
-				datas.clear();
-				String total = Api.getJSONValue(result, "total").toString();
-				if (total.isEmpty()) total = "0";
-				ctrl_comment_total.setText(total + "条评论");
-				
-				JSONArray comments = (JSONArray)Api.getJSONValue(result, "comments");
-				
-				for (int i = 0; i < comments.length(); i++) {
-					JSONObject jsonObj = (JSONObject)comments.get(i);
-					
-					String author = Api.getJSONValue(jsonObj, "author").toString();
-					String comment_content = Api.getJSONValue(jsonObj, "content").toString();
-					String comment_time = Api.getJSONValue(jsonObj, "comment_time").toString();
-		        	HashMap<String, String> row = new HashMap<String, String>();
-		        	row.put("commenter", "  " + author);
-		        	row.put("comment_time", comment_time);
-		        	row.put("comment_content", comment_content);
-		        	
-					datas.add(row);
-				}
-				
-				adapter.notifyDataSetChanged();
-				
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		} else if (what == SEND_COMMENT) {
-			if (result == null || ! "ok".equals(Api.getJSONValue(result, "status"))) {
-				Toast.makeText(getActivity(), R.string.operation_fail_notice, Toast.LENGTH_SHORT).show();
-			} else {
-				ctrl_input_content.setText("");
-				Toast.makeText(getActivity(), R.string.operation_success_notice, Toast.LENGTH_SHORT).show();
-				CallApiTask.doCallApi(GET_COMMENTS, Comments.this);
-			}
-			
-		} else if (what == REFRESH_COMMENT){ // 刷新
-			try {
-				if (result == null) {
-					listView.onRefreshComplete();
-					return;
-				}
-				
-				JSONArray comments = (JSONArray)Api.getJSONValue(result, "comments");
-				if(comments.length() > 0){
-					for (int i = 0; i < comments.length(); i++) {
-						JSONObject jsonObj = (JSONObject)comments.get(i);
-						
-						String author = Api.getJSONValue(jsonObj, "author").toString();
-						String comment_content = Api.getJSONValue(jsonObj, "content").toString();
-						String comment_time = Api.getJSONValue(jsonObj, "comment_time").toString();
-			        	HashMap<String, String> row = new HashMap<String, String>();
-			        	row.put("commenter", "  " + author);
-			        	row.put("comment_time", comment_time);
-			        	row.put("comment_content", comment_content);
-						datas.add(row);
-					}
-				}else{
-					listView.onRefreshComplete();
-					return;
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			listView.onRefreshComplete();
-		}
-	}
+
+
+    @Override
+    public boolean isCallApiSuccess(JSONObject result) {
+        return false;
+    }
+
+
+
+    @Override
+    public void apiNetworkException(Exception e) {
+        
+    }
+
+
+
+    @Override
+    public String getCacheKey(int what, Object... params) {
+        return null;
+    }
+
+
+
+    @Override
+    public void handleResult(int what, JSONObject result, boolean isDone,
+            Object... params) {
+        Util.hideLoading();
+        if (what == GET_COMMENTS) {
+            if (result == null || ! "ok".equals(Api.getJSONValue(result, "status"))) 
+                return; 
+            try {
+                datas.clear();
+                String total = Api.getJSONValue(result, "total").toString();
+                if (total.isEmpty()) total = "0";
+                ctrl_comment_total.setText(total + "条评论");
+                
+                JSONArray comments = (JSONArray)Api.getJSONValue(result, "comments");
+                
+                for (int i = 0; i < comments.length(); i++) {
+                    JSONObject jsonObj = (JSONObject)comments.get(i);
+                    
+                    String author = Api.getJSONValue(jsonObj, "author").toString();
+                    String comment_content = Api.getJSONValue(jsonObj, "content").toString();
+                    String comment_time = Api.getJSONValue(jsonObj, "comment_time").toString();
+                    HashMap<String, String> row = new HashMap<String, String>();
+                    row.put("commenter", "  " + author);
+                    row.put("comment_time", comment_time);
+                    row.put("comment_content", comment_content);
+                    
+                    datas.add(row);
+                }
+                
+                adapter.notifyDataSetChanged();
+                
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        } else if (what == SEND_COMMENT) {
+            if (result == null || ! "ok".equals(Api.getJSONValue(result, "status"))) {
+                Toast.makeText(getActivity(), R.string.operation_fail_notice, Toast.LENGTH_SHORT).show();
+            } else {
+                ctrl_input_content.setText("");
+                Toast.makeText(getActivity(), R.string.operation_success_notice, Toast.LENGTH_SHORT).show();
+                CallApiTask.doCallApi(GET_COMMENTS, Comments.this, getActivity());
+            }
+            
+        } else if (what == REFRESH_COMMENT){ // 刷新
+            try {
+                if (result == null) {
+                    listView.onRefreshComplete();
+                    return;
+                }
+                
+                JSONArray comments = (JSONArray)Api.getJSONValue(result, "comments");
+                if(comments.length() > 0){
+                    for (int i = 0; i < comments.length(); i++) {
+                        JSONObject jsonObj = (JSONObject)comments.get(i);
+                        
+                        String author = Api.getJSONValue(jsonObj, "author").toString();
+                        String comment_content = Api.getJSONValue(jsonObj, "content").toString();
+                        String comment_time = Api.getJSONValue(jsonObj, "comment_time").toString();
+                        HashMap<String, String> row = new HashMap<String, String>();
+                        row.put("commenter", "  " + author);
+                        row.put("comment_time", comment_time);
+                        row.put("comment_content", comment_content);
+                        datas.add(row);
+                    }
+                }else{
+                    listView.onRefreshComplete();
+                    return;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            listView.onRefreshComplete();
+        }
+    }
+
+
+
+    @Override
+    public JSONObject appendResult(int what, JSONObject from, JSONObject to) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+
+
+    @Override
+    public JSONObject prependResult(int what, JSONObject from, JSONObject to) {
+        // TODO Auto-generated method stub
+        return null;
+    }
 	
 }

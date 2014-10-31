@@ -47,6 +47,15 @@
         android:layout_below="@+id/top"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal" />
+    
+    <Button
+        android:id="@+id/click_to_coupon"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/coupon_qty"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        android:gravity="center_horizontal" />
 
     <com.handmark.pulltorefresh.library.PullToRefreshListView
         android:scrollbarAlwaysDrawVerticalTrack="false"
@@ -54,7 +63,7 @@
         android:id="@+id/centerlist"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/coupon_qty"
+        android:layout_below="@+id/click_to_coupon"
         android:layout_marginTop="10dp"
         android:divider="#d0d0d0"
         android:dividerHeight="1px"

@@ -1,29 +1,21 @@
 package com.yidianhulian.epiboly.zzz;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONObject;
 
-import android.R.string;
 import android.app.ActionBar;
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yidianhulian.epiboly.Const;
 import com.yidianhulian.epiboly.Util;
-import com.yidianhulian.epiboly.ZZZApplication;
 import com.yidianhulian.framework.Api;
 import com.yidianhulian.framework.CallApiTask;
 import com.yidianhulian.framework.CallApiTask.CallApiListener;
@@ -70,49 +62,7 @@ public class EditPsw extends Activity implements CallApiListener {
 	}
 
 	public void load_api(int what) {
-		new CallApiTask(what, EditPsw.this).execute();
-	}
-
-	@Override
-	public JSONObject callApi(int what, Object... params) {
-		Map<String, String> map = new HashMap<String, String>();
-		switch (what) {
-		case GET_NONCE:
-			map.put("controller", "goods");
-			map.put("method", "user_lost_password");
-			return Api.get(Const.GET_NONCE, map);
-		case GET_PWD:
-			map.put("nonce", nonce);
-			map.put("username", edit_key.getText().toString());
-			return Api.get(Const.USER_LOST_PASSWORD, map);
-		default:
-			return null;
-		}
-
-	}
-
-	@Override
-	public void handleResult(int what, JSONObject result, Object... params) {
-		if( ! Util.checkResult(this, result)){
-			Util.hideLoading();
-			return;
-		}
-		switch (what) {
-		case GET_NONCE:
-			nonce = (String) Api.getJSONValue(result, "nonce");
-			load_api(GET_PWD);
-			break;
-		case GET_PWD:
-			Util.hideLoading();
-			if((Boolean) Api.getJSONValue(result, "sent")){
-				Util.sendToast(getApplicationContext(), "密码已发送至邮箱，请注意查收。", Toast.LENGTH_SHORT);
-			}
-			break;
-
-		default:
-			break;
-		}
-
+	    CallApiTask.doCallApi(what, EditPsw.this, getApplicationContext());
 	}
 	
 	@Override
@@ -123,5 +73,71 @@ public class EditPsw extends Activity implements CallApiListener {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+    @Override
+    public Api getApi(int what, Object... params) {
+        Map<String, String> map = new HashMap<String, String>();
+        switch (what) {
+        case GET_NONCE:
+            map.put("controller", "goods");
+            map.put("method", "user_lost_password");
+            return new Api("get", Const.GET_NONCE, map);
+        case GET_PWD:
+            map.put("nonce", nonce);
+            map.put("username", edit_key.getText().toString());
+            return new Api("get", Const.USER_LOST_PASSWORD, map);
+        default:
+            return null;
+        }
+    }
+
+    @Override
+    public boolean isCallApiSuccess(JSONObject result) {
+        return false;
+    }
+
+    @Override
+    public void apiNetworkException(Exception e) {
+        
+    }
+
+    @Override
+    public String getCacheKey(int what, Object... params) {
+        return null;
+    }
+
+    @Override
+    public void handleResult(int what, JSONObject result, boolean isDone,
+            Object... params) {
+        if( ! Util.checkResult(this, result)){
+            Util.hideLoading();
+            return;
+        }
+        switch (what) {
+        case GET_NONCE:
+            nonce = (String) Api.getJSONValue(result, "nonce");
+            load_api(GET_PWD);
+            break;
+        case GET_PWD:
+            Util.hideLoading();
+            if((Boolean) Api.getJSONValue(result, "sent")){
+                Util.sendToast(getApplicationContext(), "密码已发送至邮箱，请注意查收。", Toast.LENGTH_SHORT);
+            }
+            break;
+
+        default:
+            break;
+        }
+    }
+
+    @Override
+    public JSONObject appendResult(int what, JSONObject from, JSONObject to) {
+        return null;
+    }
+
+    @Override
+    public JSONObject prependResult(int what, JSONObject from, JSONObject to) {
+        return null;
+    }
 	
 }

@@ -34,9 +34,12 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.yidianhulian.epiboly.Const;
 import com.yidianhulian.epiboly.Util;
+import com.yidianhulian.epiboly.ZZZApplication;
 import com.yidianhulian.framework.Api;
 import com.yidianhulian.framework.CallApiTask;
+import com.yidianhulian.framework.CallApiTask.CacheType;
 import com.yidianhulian.framework.CallApiTask.CallApiListener;
+import com.yidianhulian.framework.CallApiTask.FetchType;
 
 public class CouponList extends Fragment implements CallApiListener {
 
@@ -45,6 +48,7 @@ public class CouponList extends Fragment implements CallApiListener {
     private Button favouriteBtn = null;
     private Button settingBtn = null;
     private TextView textView = null;
+    private Button click_to_coupon = null;
     private RelativeLayout settingLayout = null;
     private Button close;
     private Button all;
@@ -57,7 +61,7 @@ public class CouponList extends Fragment implements CallApiListener {
     private String check_value;
 
     private String clickedType;
-    private String btnType;
+//    private String btnType;
     private int load_Type;
     private final static int GET_COUPONS = 2;
     private final static int REMOVE_COUPON = 3;
@@ -266,9 +270,9 @@ public class CouponList extends Fragment implements CallApiListener {
             @Override
             public void onPullDownToRefresh(
                     PullToRefreshBase<ListView> refreshView) {
-                if ("coupon".equals(btnType)) {
+                if (load_Type == GET_COUPONS) {
                     load_data(GET_COUPONS);
-                } else if ("favorite".equals(btnType)) {
+                } else if ( load_Type == GET_FAVORITES ) {
                     load_data(GET_FAVORITES);
                 }
             }
@@ -285,6 +289,7 @@ public class CouponList extends Fragment implements CallApiListener {
         favouriteBtn = (Button) v.findViewById(R.id.favouriteBtn);
         settingBtn = (Button) v.findViewById(R.id.settingBtn);
         textView = (TextView) v.findViewById(R.id.coupon_qty);
+        click_to_coupon = (Button) v.findViewById(R.id.click_to_coupon);
 
         settingLayout = (RelativeLayout) v.findViewById(R.id.setting_layout);
 
@@ -304,6 +309,7 @@ public class CouponList extends Fragment implements CallApiListener {
                         // 调用移除coupon接口
                         couponId = listData.get((Integer) v.getTag()).getId();
                         Util.showLoading(getActivity(), Util.DATA_PROCESSING);
+                        
                         load_data(REMOVE_COUPON);
                     }
                 });
@@ -317,8 +323,10 @@ public class CouponList extends Fragment implements CallApiListener {
                         ClipboardManager cbm = (ClipboardManager) getActivity()
                                 .getSystemService(
                                         getActivity().CLIPBOARD_SERVICE);
-                        cbm.setText( listData.get((Integer) v.getTag()).getCode_in() );
-                        Util.sendToast(getActivity(), "已成功复制到剪切板", Toast.LENGTH_LONG);
+                        cbm.setText(listData.get((Integer) v.getTag())
+                                .getCode_in());
+                        Util.sendToast(getActivity(), "已成功复制到剪切板",
+                                Toast.LENGTH_LONG);
                     }
                 });
                 return view;
@@ -372,8 +380,9 @@ public class CouponList extends Fragment implements CallApiListener {
 
             @Override
             public void onClick(View v) {
-                btnType = "coupon";
-                textView.setVisibility(View.VISIBLE);
+                load_Type = GET_COUPONS;
+                textView.setVisibility(View.GONE);
+                click_to_coupon.setVisibility(View.GONE);
                 settingLayout.setVisibility(View.GONE);
                 listView.setVisibility(View.VISIBLE);
                 listView.setAdapter(couponAdapter);
@@ -394,8 +403,9 @@ public class CouponList extends Fragment implements CallApiListener {
 
             @Override
             public void onClick(View v) {
-                btnType = "favorite";
+                load_Type = GET_FAVORITES;
                 textView.setVisibility(View.GONE);
+                click_to_coupon.setVisibility(View.GONE);
                 settingLayout.setVisibility(View.GONE);
                 listView.setVisibility(View.VISIBLE);
                 listView.setAdapter(favouriteAdapter);
@@ -414,8 +424,9 @@ public class CouponList extends Fragment implements CallApiListener {
 
             @Override
             public void onClick(View v) {
-                btnType = "setting";
+                load_Type = GET_SYSTEM_SETTING;
                 textView.setVisibility(View.GONE);
+                click_to_coupon.setVisibility(View.GONE);
                 settingLayout.setVisibility(View.VISIBLE);
                 listView.setVisibility(View.GONE);
                 couponBtn.setSelected(false);
@@ -431,30 +442,31 @@ public class CouponList extends Fragment implements CallApiListener {
         });
         switch (load_Type) {
         case GET_COUPONS:
-            btnType = "coupon";
-            textView.setVisibility(View.VISIBLE);
+//            load_Type = GET_COUPONS;
+            textView.setVisibility(View.GONE);
+            click_to_coupon.setVisibility(View.GONE);
             settingLayout.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
             listView.setAdapter(couponAdapter);
             break;
         case GET_FAVORITES:
-            btnType = "favorite";
+//            load_Type = GET_FAVORITES;
             textView.setVisibility(View.GONE);
+            click_to_coupon.setVisibility(View.GONE);
             settingLayout.setVisibility(View.GONE);
             listView.setVisibility(View.VISIBLE);
             listView.setAdapter(favouriteAdapter);
             break;
         case GET_SYSTEM_SETTING:
-            btnType = "setting";
+//            load_Type = GET_SYSTEM_SETTING;
             textView.setVisibility(View.GONE);
+            click_to_coupon.setVisibility(View.GONE);
             settingLayout.setVisibility(View.VISIBLE);
             listView.setVisibility(View.GONE);
             break;
         default:
             break;
         }
-        Util.showLoading(getActivity(), Util.DATA_LOADING);
-        load_data(load_Type);
 
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
@@ -462,10 +474,10 @@ public class CouponList extends Fragment implements CallApiListener {
                     int position, long id) {
                 Intent intent = new Intent(getActivity(),
                         GoodsDetailsActivity.class);
-                if (btnType.equals("coupon")) {
+                if (load_Type == GET_COUPONS) {
                     // dy_edit
                     intent.putExtra("id", listData.get((int) id).getGood_id());
-                } else if (btnType.equals("favorite")) {
+                } else if (load_Type == GET_FAVORITES) {
                     intent.putExtra("id", listData.get((int) id).getId());
                 }
 
@@ -477,36 +489,69 @@ public class CouponList extends Fragment implements CallApiListener {
     }
 
     public void load_data(int what) {
-        new CallApiTask(what, CouponList.this).execute();
+//    	CallApiTask.doCallApi(what, CouponList.this, getActivity());
+    	// 国兴财
+        CallApiTask.doCallApi(what, CouponList.this, getActivity(), CacheType.REPLACE, FetchType.FETCH_API_ELSE_CACHE);
     }
 
     @Override
-    public JSONObject callApi(int what, Object... params) {
+    public void onResume() {
+        super.onResume();
+        // if(!ZZZApplication.isLogin()){
+        // getActivity().finish();
+        // }
+        // 用户登进登出
+//        if ("coupon".equals(btnType)) {
+//            Util.showLoading(getActivity(), Util.DATA_LOADING);
+//            load_data(GET_COUPONS);
+//        } else if ("favorite".equals(btnType)) {
+//            Util.showLoading(getActivity(), Util.DATA_LOADING);
+//            load_data(GET_FAVORITES);
+//        }
+        /**
+         * author xialinchong
+         * 把btnType全部换成load_Type
+         */
+        Util.showLoading(getActivity(), Util.DATA_LOADING);
+        load_data(load_Type);
+    }
+
+    class MyListRowAdapter extends ListRowAdapter {
+
+        public MyListRowAdapter(Activity activity, List<ListRow> listRow,
+                PullToRefreshListView listView, int rowlayout) {
+            super(activity, listRow, listView, rowlayout);
+        }
+
+    }
+
+    @Override
+    public Api getApi(int what, Object... params) {
         HashMap<String, String> search_params = new HashMap<String, String>();
         search_params.put("cookie", Util.getLoginUserItem(getActivity()
                 .getApplicationContext(), "cookie"));
         switch (what) {
         // 获取优惠券列表
         case GET_COUPONS:
-            return Api.get(Const.GET_USER_COUPONS, search_params);
+            return new Api("get", Const.GET_USER_COUPONS, search_params);
 
             // 移除优惠券列表
         case REMOVE_COUPON:
             search_params.put("couponId", couponId);
-            return Api.get(Const.REMOVE_COUPON, search_params);
+            return new Api("get", Const.REMOVE_COUPON, search_params);
 
             // 获取收藏列表
         case GET_FAVORITES:
-            return Api.get(Const.GET_FAVORITE_GOODS, search_params);
+            return new Api("get", Const.GET_FAVORITE_GOODS, search_params);
 
             // 移除收藏列表
         case REMOVE_FAVORITE:
             search_params.put("gid", favoriterId);
-            return Api.get(Const.REMOVE_FAVORITE_GOODS, search_params);
+            return new Api("get", Const.REMOVE_FAVORITE_GOODS, search_params);
 
             // 获取系统设置
         case GET_SYSTEM_SETTING:
-            return Api.get(Const.GET_USER_SETTING, search_params);
+            return new Api("get",Const.GET_USER_SETTING, search_params);
 
             // 保存系统设置
         case SAVE_SYSTEM_SETTING:
@@ -522,17 +567,44 @@ public class CouponList extends Fragment implements CallApiListener {
                 search_params.put("silence_time_start", stimes);
                 search_params.put("silence_time_end", etimes);
             }
-            return Api.get(Const.SAVE_USER_SETTING, search_params);
+            return new Api("get", Const.SAVE_USER_SETTING, search_params);
 
         default:
             return null;
         }
-
     }
 
     @Override
-    public void handleResult(int what, JSONObject result, Object... params) {
-        Util.hideLoading();
+    public boolean isCallApiSuccess(JSONObject result) {
+    	if (result == null || !"ok".equals(Api.getJSONValue(result, "status"))) return false;
+        return true;
+    }
+
+    @Override
+    public void apiNetworkException(Exception e) {
+        
+    }
+
+    @Override
+    public String getCacheKey(int what, Object... params) {
+    	// 添加KEY 
+    	switch(what){
+    		case GET_COUPONS:
+    			return Const.GET_USER_COUPONS;
+			case GET_FAVORITES:
+				return Const.GET_FAVORITE_GOODS;
+			default : 
+				return null;
+    	}
+    }
+
+    @Override
+    public void handleResult(int what, JSONObject result, boolean isDone,
+            Object... params) {
+        if (isDone) {
+            Util.hideLoading();
+        }
+        
         boolean check_result = Util.checkResult(getActivity(), result);
         try {
             switch (what) {
@@ -546,6 +618,8 @@ public class CouponList extends Fragment implements CallApiListener {
                     JSONArray list = (JSONArray) Api.getJSONValue(result,
                             "list");
 
+                    textView.setVisibility(View.VISIBLE);
+                    click_to_coupon.setVisibility(View.GONE);
                     textView.setText("您已领取" + list.length() + "张优惠券，请尽快使用");
                     for (int i = 0; i < list.length(); i++) {
                         JSONObject jsonObj = (JSONObject) list.get(i);
@@ -567,7 +641,22 @@ public class CouponList extends Fragment implements CallApiListener {
                         listData.add(listRow);
                     }
                 } else {
-                    textView.setText("暂无数据");
+                    click_to_coupon.setVisibility(View.VISIBLE);
+                    textView.setVisibility(View.GONE);
+                    click_to_coupon.setText("您还没有领取优惠券，点击前往领取!");
+                    click_to_coupon.setOnClickListener(new OnClickListener() {
+
+                        @Override
+                        public void onClick(View v) {
+                            GoodsListNav nav = new GoodsListNav(ZZZApplication
+                                    .getInstance().addresses, "0", "youhuiquan");
+                            getFragmentManager().beginTransaction()
+                                    .replace(R.id.content_frame, nav).commit();
+
+                            ((MainActivity) getActivity()).restoreActionBar();
+                        }
+
+                    });
                 }
                 couponAdapter.notifyDataSetChanged();
                 couponBtn.setSelected(true);
@@ -696,27 +785,12 @@ public class CouponList extends Fragment implements CallApiListener {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        // if(!ZZZApplication.isLogin()){
-        // getActivity().finish();
-        // }
-        // 用户登进登出
-        if ("coupon".equals(btnType)) {
-            Util.showLoading(getActivity(), Util.DATA_LOADING);
-            load_data(GET_COUPONS);
-        } else if ("favorite".equals(btnType)) {
-            Util.showLoading(getActivity(), Util.DATA_LOADING);
-            load_data(GET_FAVORITES);
-        }
+    public JSONObject appendResult(int what, JSONObject from, JSONObject to) {
+        return null;
     }
 
-    class MyListRowAdapter extends ListRowAdapter {
-
-        public MyListRowAdapter(Activity activity, List<ListRow> listRow,
-                PullToRefreshListView listView, int rowlayout) {
-            super(activity, listRow, listView, rowlayout);
-        }
-
+    @Override
+    public JSONObject prependResult(int what, JSONObject from, JSONObject to) {
+        return null;
     }
 }

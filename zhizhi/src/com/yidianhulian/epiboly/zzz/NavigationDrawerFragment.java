@@ -155,23 +155,29 @@ public class NavigationDrawerFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-		if (ZZZApplication.isLogin() ) {
-//			click_layout.setClickable(false);
-        	member_name.setText(ZZZApplication.getInstance().getLoginUserItem("username"));
-        	if (exitItem ==null) {
-        		exitItem = new SideMenuItem("退出登录", R.drawable.logout);
-            	adapter.add(exitItem);
-			}
-        	
-        }else if( ! ZZZApplication.isLogin()){
-        	member_name.setText("点击登陆");
-//        	click_layout.setClickable(true);
-			adapter.remove(exitItem);
-			exitItem =null;
-		}
-		mDrawerListView.setAdapter(adapter);
+		is_show_logout();
 	}
 
+	/**
+     * author xialinchong
+     * 判断侧面划出菜单是显示点击登陆还是退出登录
+     */
+	public void is_show_logout() {
+	    if (ZZZApplication.isLogin() ) {
+            member_name.setText(ZZZApplication.getInstance().getLoginUserItem("username"));
+            if (exitItem ==null) {
+                exitItem = new SideMenuItem("退出登录", R.drawable.logout);
+                adapter.add(exitItem);
+            }
+            
+        }else if( ! ZZZApplication.isLogin()){
+            member_name.setText("点击登陆");
+            adapter.remove(exitItem);
+            exitItem =null;
+        }
+        mDrawerListView.setAdapter(adapter);
+	}
+	
 	private void setLoginClickListener() {
 		click_layout.setOnClickListener(new View.OnClickListener() {
 			
@@ -250,6 +256,7 @@ public class NavigationDrawerFragment extends Fragment {
 			@Override
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
+		        mDrawerListView.setAdapter(adapter);
 				if (!isAdded()) {
 					return;
 				}

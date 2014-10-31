@@ -7,14 +7,14 @@ import java.util.Map;
 
 import org.json.JSONObject;
 
+import android.app.Application;
+import android.util.Log;
+
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushManager;
 import com.yidianhulian.framework.Api;
 import com.yidianhulian.framework.CallApiTask;
 import com.yidianhulian.framework.CallApiTask.CallApiListener;
-
-import android.app.Application;
-import android.util.Log;
 
 
 public class ZZZApplication extends Application implements CallApiListener {
@@ -40,7 +40,8 @@ public class ZZZApplication extends Application implements CallApiListener {
 				deviceToken = (String) arg0;
 				HashMap<String, String> userHashMap = getLoginUser();
 				if (userHashMap != null) {
-					new CallApiTask(0, ZZZApplication.this).execute();
+				    CallApiTask.doCallApi(0, ZZZApplication.this, ZZZApplication.this);
+//					new CallApiTask(0, ZZZApplication.this).execute();
 				}
 			}
 			
@@ -113,20 +114,57 @@ public class ZZZApplication extends Application implements CallApiListener {
 		return true;
 	}
 
-	@Override
-	public JSONObject callApi(int what, Object... params) {
-		Map<String, String> mitem = new HashMap<String, String>();
-		mitem.put("cookie", 
-				Util.getLoginUserItem(ZZZApplication.this.getApplicationContext(), "cookie"));
-		mitem.put("type", "android");
-		mitem.put("op", "add");
-//		mitem.put("deviceToken", deviceToken);
-		mitem.put("token", deviceToken);
-		return Api.get(Const.UPLOAD_DEVICE_TOKEN, mitem);
-	}
+//	@Override
+//	public JSONObject callApi(int what, Object... params) {
+//		Map<String, String> mitem = new HashMap<String, String>();
+//		mitem.put("cookie", 
+//				Util.getLoginUserItem(ZZZApplication.this.getApplicationContext(), "cookie"));
+//		mitem.put("type", "android");
+//		mitem.put("op", "add");
+////		mitem.put("deviceToken", deviceToken);
+//		mitem.put("token", deviceToken);
+//		return Api.get(Const.UPLOAD_DEVICE_TOKEN, mitem);
+//	}
 
-	@Override
-	public void handleResult(int what, JSONObject result, Object... params) {
-		System.out.println("11111");
-	}
+    @Override
+    public Api getApi(int what, Object... params) {
+        Map<String, String> mitem = new HashMap<String, String>();
+        mitem.put("cookie", 
+                Util.getLoginUserItem(ZZZApplication.this.getApplicationContext(), "cookie"));
+        mitem.put("type", "android");
+        mitem.put("op", "add");
+        mitem.put("token", deviceToken);
+        return new Api("get",Const.UPLOAD_DEVICE_TOKEN, mitem);
+    }
+
+    @Override
+    public boolean isCallApiSuccess(JSONObject result) {
+        return false;
+    }
+
+    @Override
+    public void apiNetworkException(Exception e) {
+        
+    }
+
+    @Override
+    public String getCacheKey(int what, Object... params) {
+        return null;
+    }
+
+    @Override
+    public void handleResult(int what, JSONObject result, boolean isDone,
+            Object... params) {
+        
+    }
+
+    @Override
+    public JSONObject appendResult(int what, JSONObject from, JSONObject to) {
+        return null;
+    }
+
+    @Override
+    public JSONObject prependResult(int what, JSONObject from, JSONObject to) {
+        return null;
+    }
 }
